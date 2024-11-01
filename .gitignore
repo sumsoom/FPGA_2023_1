@@ -1,0 +1,42 @@
+# 무시할 파일 형식 및 폴더 설정
+
+# PNG 이미지 파일
+*.png
+
+# 텍스트 문서
+*.txt
+
+# Microsoft Word 문서
+*.docx
+
+# PDF 파일
+*.pdf
+
+# Quartus 또는 기타 FPGA 관련 생성 파일
+db/
+simulation/
+synthesis/
+output_files/
+*.rpt
+*.jdi
+*.sld
+*.sof
+*.pof
+*.hex
+*.csv
+*.html
+*.htm
+*.summary
+*.map
+*.done
+*.pin
+*.qws
+*.qsf
+*.qpf
+*.cdf
+*.sdc
+*.ttf
+
+# 기타 임시 파일
+*.temp
+*.tmp
