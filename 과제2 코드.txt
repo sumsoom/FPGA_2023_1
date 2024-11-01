@@ -1,0 +1,98 @@
+module cnt0 (clk0, rst, out0);
+input rst, clk0;
+output [3:0] out0;
+reg [3:0] tmp_q, out0;
+
+always @(posedge clk or negedge rst) begin
+if(!rst) begin
+out0<=4'b0000;
+tmp_q<=4'b0000;
+end
+else begin
+tmp_q<=tmp_q+1;
+out0<=tmp_q;
+end
+end
+endmodule
+
+module cnt1 (clk0, rst, out1);
+  input wire clk0;  // 입력 클럭
+  input wire rst; // 리셋 신호
+  output reg out1;  // 계수기 출력
+
+  reg [3:0] count;  // 현재 카운터 값
+
+  always @(posedge clk0 or posedge rst) begin
+    if (!rst) begin  // 리셋 신호가 활성화되면 계수기를 0으로 초기화
+      count <= 0;
+      out1 <= 0;
+    end
+    else begin
+      if (count == 9) begin  // 10분주에 도달하면 out1을 토글
+        out1 <= ~out1;
+        count <= 0;
+      end
+      else
+        count <= count + 1;  // 입력 클럭 주기에 따라 카운터 값을 증가
+    end
+  end
+
+endmodule
+
+module cnt2 (clk0, rst, out2);
+  input wire clk0; 
+  input wire rst;
+  output reg out2;
+
+  reg [6:0] count;
+
+  always @(posedge clk0 or posedge rst) begin
+    if (!rst) begin
+	count <= 0;
+	out2<=4'b0000;
+end
+    else if (count == 99) begin  
+      out2 <= ~out2;
+      count <= 0;
+    end
+    else
+      count <= count + 1; 
+  end
+
+endmodule
+
+
+module cnt3 (clk0, rst, out3);
+  input wire clk0; 
+  input wire rst;  
+  output reg out3;  
+
+  reg [9:0] count; 
+
+  always @(posedge clk0 or posedge rst) begin
+    if (!rst)  begin
+      count <= 0;
+out3<=4'b0000;
+end
+    else if (count == 999) begin  
+      out3 <= ~out3;
+      count <= 0;
+    end
+    else
+      count <= count + 1; 
+  end
+
+endmodule
+
+
+module sync_cnt(rst, clk0, out0, out1, out2, out3);
+
+input rst, clk0;
+output [3:0] out0, out1, out2, out3;
+
+cnt0 u0(clk0, rst, out0);
+cnt1 u1(clk0, rst, out1);
+cnt2 u2(clk0, rst, out2);
+cnt3 u3(clk0, rst, out3);
+
+endmodule

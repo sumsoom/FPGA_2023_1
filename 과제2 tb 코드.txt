@@ -1,0 +1,208 @@
+module cnt0_tb;
+  reg rst;
+  wire [3:0] out0;
+  reg clk0;
+
+  // Clock generator
+  always begin
+    #5;
+    clk0 = ~clk0;
+  end
+
+  // Reset control
+  initial begin
+    rst = 1;
+    #10;
+    rst = 0;
+    #200;
+    $finish;
+  end
+
+  // Instantiate the counter module
+  cnt0 u0 (
+    .clk0(clk0),
+    .rst(rst),
+    .out0(out0)
+  );
+
+  // Monitor the output
+  always @(posedge clk0) begin
+    $display("out0 = %d", out0);
+  end
+
+endmodule
+
+module cnt1_tb;
+  reg rst;
+  wire out1;
+  reg clk0;
+
+  // Clock generator
+  always begin
+    #10;
+    clk0 = ~clk0;
+  end
+
+  // Reset control
+  initial begin
+    rst = 1;
+    #20;
+    rst = 0;
+    #400;
+    $finish;
+  end
+
+  // Instantiate the counter module
+  cnt1 u1 (
+    .clk0(clk0),
+    .rst(rst),
+    .out1(out1)
+  );
+
+  // Monitor the output
+  always @(posedge clk0) begin
+    $display("out1 = %d", out1);
+  end
+
+endmodule
+
+module cnt2_tb;
+  reg rst;
+  wire out2;
+  reg clk0;
+
+  // Clock generator
+  always begin
+    #20;
+    clk0 = ~clk0;
+  end
+
+  // Reset control
+  initial begin
+    rst = 1;
+    #40;
+    rst = 0;
+    #800;
+    $finish;
+  end
+
+  // Instantiate the counter module
+  cnt2 u2 (
+    .clk0(clk0),
+    .rst(rst),
+    .out2(out2)
+  );
+
+  // Monitor the output
+  always @(posedge clk0) begin
+    $display("out2 = %d", out2);
+  end
+
+endmodule
+
+module cnt3_tb;
+  reg rst;
+  wire out3;
+  reg clk0;
+
+  // Clock generator
+  always begin
+    #40;
+    clk0 = ~clk0;
+  end
+
+  // Reset control
+  initial begin
+    rst = 1;
+    #80;
+    rst = 0;
+    #1600;
+    $finish;
+  end
+
+  // Instantiate the counter module
+  cnt3 u3 (
+    .clk0(clk0),
+    .rst(rst),
+    .out3(out3)
+  );
+
+  // Monitor the output
+  always @(posedge clk0) begin
+    $display("out3 = %d", out3);
+  end
+
+endmodule
+
+
+
+module sync_cnt_tb;
+  reg rst;
+  wire [3:0] out0;
+  wire out1;
+  wire out2;
+  wire out3;
+
+  reg clk0;
+  reg clk_div;
+
+  // Clock generator
+  always begin
+    #5;
+    clk0 = ~clk0;
+    if (clk_div == 1'b0)
+      clk_div = 1'b1;
+    else
+      clk_div = 1'b0;
+  end
+
+  // Reset control
+  initial begin
+    rst = 1;
+    #10;
+    rst = 0;
+    #20;
+    rst = 1;
+    #200;
+    $finish;
+  end
+
+  // Instantiate the counter modules
+  cnt0 u0 (
+    .clk0(clk_div),
+    .rst(rst),
+    .out0(out0)
+  );
+
+  cnt1 u1 (
+    .clk0(clk_div),
+    .rst(rst),
+    .out1(out1)
+  );
+
+  cnt2 u2 (
+    .clk0(clk_div),
+    .rst(rst),
+    .out2(out2)
+  );
+
+  cnt3 u3 (
+    .clk0(clk_div),
+    .rst(rst),
+    .out3(out3)
+  );
+
+  // Initialize outputs
+  initial begin
+    out0 = 4'b0000;
+    out1 = 1'b0;
+    out2 = 1'b0;
+    out3 = 1'b0;
+  end
+
+  // Monitor the outputs
+  always @(posedge clk0) begin
+    $display("out0 = %d, out1 = %d, out2 = %d, out3 = %d", out0, out1, out2, out3);
+  end
+
+endmodule
